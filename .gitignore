@@ -1,0 +1,4 @@
+.env
+*.local.json
+liquipedia-config.json
+.liquipedia-cache/
