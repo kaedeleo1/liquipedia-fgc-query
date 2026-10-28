@@ -179,9 +179,10 @@ function Get-PlayerFields {
 
     $result = [ordered]@{}
     foreach ($fieldName in $fieldNames) {
-        $pattern = '(?m)^\|' + [regex]::Escape($fieldName) + '\s*=\s*(.*)$'
+        $pattern = '(?m)^\|' + [regex]::Escape($fieldName) + '[ \t]*=[ \t]*(.*)$'
         $match = [regex]::Match($Wikitext, $pattern)
-        $result[$fieldName] = if ($match.Success) { $match.Groups[1].Value.Trim() } else { $null }
+        $value = if ($match.Success) { $match.Groups[1].Value.Trim() } else { '' }
+        $result[$fieldName] = if ([string]::IsNullOrWhiteSpace($value)) { $null } else { $value }
     }
 
     return [pscustomobject]$result
